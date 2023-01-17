@@ -48,6 +48,8 @@ module "alb" {
   public_subnet_az1_id = module.vpc.public_subnet_az1_id
   public_subnet_az2_id = module.vpc.public_subnet_az2_id
   vpc_id = module.vpc.vpc_id
+  demo_instance_1 = module.ec2_instance.instance_id_1
+  demo_instance_2 = module.ec2_instance.instance_id_2
   
 }
 

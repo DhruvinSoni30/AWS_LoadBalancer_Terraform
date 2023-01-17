@@ -12,14 +12,9 @@ resource "aws_instance" "demo_instance_public_1" {
     "Name" = "${var.project_name}-public-instance"
   }
 
-  connection {
-    type     = "ssh"
-    user     = "ec2-user"
-    private_key = file(var.private_key)
-    host     = self.public_ip
-  }
 
   provisioner "remote-exec" {
+
     inline = [
       "sudo yum update -y",
       "sudo amazon-linux-extras install docker -y",
@@ -33,6 +28,13 @@ resource "aws_instance" "demo_instance_public_1" {
   ]
  }
 
+  connection {
+      type     = "ssh"
+      user     = "ec2-user"
+      private_key = file(var.private_key)
+      host     = self.public_ip
+      port        = 22
+    }
 }
 
 # create EC2 instance in public subnet 2
@@ -43,19 +45,14 @@ resource "aws_instance" "demo_instance_public_2" {
   instance_type          = var.instance_type
   availability_zone      = data.aws_availability_zones.az.names[1]
   subnet_id              = var.public_subnet_az2
+  key_name               = var.key_id
 
   tags = {
-    "Name" = "${var.project_name}-public-instance"
-  }
-
-  connection {
-    type     = "ssh"
-    user     = "ec2-user"
-    private_key = file(var.private_key)
-    host     = self.public_ip
+    "Name" = "${var.project_name}-public-instance-2"
   }
 
   provisioner "remote-exec" {
+
     inline = [
       "sudo yum update -y",
       "sudo amazon-linux-extras install docker -y",
@@ -69,6 +66,13 @@ resource "aws_instance" "demo_instance_public_2" {
   ]
  }
 
+   connection {
+      type     = "ssh"
+      user     = "ec2-user"
+      private_key = file(var.private_key)
+      host     = self.public_ip
+      port        = 22
+    }
 }
 
 # create EC2 instance in private subnet 1
@@ -102,15 +106,3 @@ resource "aws_instance" "demo_instance_private_2" {
 
 # AZ
 data "aws_availability_zones" "az" {}
-
-# Create a new load balancer attachment
-resource "aws_elb_attachment" "alb_attach_1" {
-  elb      = var.alb_id
-  instance = aws_instance.demo_instance_public_1.id
-}
-
-# Create a new load balancer attachment
-resource "aws_elb_attachment" "alb_attach_2" {
-  elb      = var.alb_id
-  instance = aws_instance.demo_instance_public_2.id
-}
