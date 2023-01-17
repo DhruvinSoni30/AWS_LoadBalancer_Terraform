@@ -20,9 +20,16 @@ resource "aws_nat_gateway" "nat_gateway_az1" {
   depends_on = [var.internet_gateway]
 }
 
+resource "aws_eip" "eip_for_nat_gateway_2" {
+  vpc = true
+
+  tags = {
+    Name = "EIP for Nat Gateway"
+  }
+}
 # create nat gateway in public subnet az2
 resource "aws_nat_gateway" "nat_gateway_az2" {
-  allocation_id = aws_eip.eip_for_nat_gateway.id
+  allocation_id = aws_eip.eip_for_nat_gateway_2.id
   subnet_id     = var.public_subnet_az2_id
 
   tags = {
@@ -53,12 +60,6 @@ resource "aws_route_table_association" "private_app_subnet_az1_route_table_az1_a
   route_table_id = aws_route_table.private_route_table.id
 }
 
-# associate private data subnet az1 with private route table az1
-resource "aws_route_table_association" "private_data_subnet_az1_route_table_az1_association" {
-  subnet_id      = var.private_data_subnet_az1_id
-  route_table_id = aws_route_table.private_route_table.id
-}
-
 # create private route table az2 and add route through nat gateway az2
 resource "aws_route_table" "private_route_table_az2" {
   vpc_id = var.vpc_id
@@ -79,9 +80,4 @@ resource "aws_route_table_association" "private_app_subnet_az2_route_table_az2_a
   route_table_id = aws_route_table.private_route_table_az2.id
 }
 
-# associate private data subnet az2 with private route table az2
-resource "aws_route_table_association" "private_data_subnet_az2_route_table_az2_association" {
-  subnet_id      = var.private_data_subnet_az2_id
-  route_table_id = aws_route_table.private_route_table_az2.id
-}
 

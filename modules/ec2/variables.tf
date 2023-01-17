@@ -8,3 +8,6 @@ variable "private_app_subnet_az1" {}
 variable "private_app_subnet_az2" {}
 variable "alb_id" {}
 variable "key_id" {}
+variable "private_key" {
+  default = "/Users/dhruvins/Desktop/AWS_LoadBalancer_Terraform/modules/key_pair/tests.pem"
+}
