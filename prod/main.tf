@@ -54,6 +54,14 @@ module "alb" {
   vpc_id = module.vpc.vpc_id
   
 }
+
+# create key pair
+
+module "key_pair" {
+
+    source = "../modules/key_pair"
+  
+}
 # create EC2 instance
 module "ec2_instance" {
 
@@ -67,6 +75,7 @@ module "ec2_instance" {
   private_app_subnet_az2 = module.vpc.private_app_subnet_az2_id
   project_name = module.vpc.project_name
   alb_id = module.alb.alb_id
+  key_id = module.key_pair.key_id
 
 }
 

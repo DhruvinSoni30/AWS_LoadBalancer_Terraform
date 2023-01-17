@@ -6,6 +6,7 @@ resource "aws_instance" "demo_instance_public_1" {
   instance_type          = var.instance_type
   availability_zone      = data.aws_availability_zones.az.names[0]
   subnet_id              = var.public_subnet_az1
+  key_name               = var.key_id
 
   tags = {
     "Name" = "${var.project_name}-instance"

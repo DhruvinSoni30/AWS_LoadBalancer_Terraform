@@ -7,3 +7,4 @@ variable "public_subnet_az2" {}
 variable "private_app_subnet_az1" {}
 variable "private_app_subnet_az2" {}
 variable "alb_id" {}
+variable "key_id" {}
