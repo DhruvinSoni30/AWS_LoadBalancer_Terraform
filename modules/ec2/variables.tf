@@ -1,0 +1,9 @@
+variable "ec2_security_group" {}
+variable "ami_id" {}
+variable "instance_type" {}
+variable "public_subnet_az1" {}
+variable "project_name" {}
+variable "public_subnet_az2" {}
+variable "private_app_subnet_az1" {}
+variable "private_app_subnet_az2" {}
+variable "alb_id" {}
