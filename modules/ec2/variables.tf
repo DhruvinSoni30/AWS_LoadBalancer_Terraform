@@ -1,4 +1,6 @@
-variable "ec2_security_group" {}
+variable "public_ec2_security_group" {}
+variable "private_ec2_security_group" {}
+variable "bastion_host_security_group" {}
 variable "ami_id" {}
 variable "instance_type" {}
 variable "public_subnet_az1" {}

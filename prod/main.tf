@@ -65,7 +65,9 @@ module "ec2_instance" {
   source = "../modules/ec2"
   ami_id = var.ami_id
   instance_type = var.instance_type
-  ec2_security_group = module.security_group.ec2_security_group_id
+  public_ec2_security_group = module.security_group.public_ec2_security_group_id
+  private_ec2_security_group = module.security_group.private_ec2_security_group_id
+  bastion_host_security_group = module.security_group.bastion_host_security_group_id
   public_subnet_az1 = module.vpc.public_subnet_az1_id
   public_subnet_az2 = module.vpc.public_subnet_az2_id
   private_app_subnet_az1 = module.vpc.private_app_subnet_az1_id
